@@ -1,14 +1,13 @@
 <template>
-  <table class="table container" v-show='productos.length > 0'>
+  <table class="table container">
     <thead>
       <tr>
         <th scope="col">#</th>
         <th scope="col">Codigo</th>
         <th scope="col">Nombre</th>
-        <th scope="col">Stock</th>
+        <th scope="col" v-if="ocultaCelda">Stock</th>
         <th scope="col">Precio</th>
-        <!-- <th scope="col">Color</th> -->
-        <!-- <th scope="col">descatacado</th> -->
+        <th scope="col" v-if="mostrarBtn"></th>
       </tr>
     </thead>
     <tbody>
@@ -19,12 +18,15 @@
         :class="producto.clase"
       >
         <th scope="row" v-text="index + 1"></th>
-        <td v-text="producto.codigo"></td>
-        <td v-text="producto.nombre"></td>
-        <td v-text="producto.stock"></td>
-        <td v-text="producto.precio"></td>
-        <!-- <td v-text="producto.color"></td> -->
-        <!-- <td v-text="producto.destacado"></td> -->
+        <td>{{ producto.codigo }}</td>
+        <td>{{ producto.nombre }}</td>
+        <td v-if="ocultaCelda">{{ producto.stock }}</td>
+        <td>${{ producto.precio }}</td>
+        <td v-if="mostrarBtn">
+          <button class="btn btn-secondary" @click="vender(producto)">
+            Vender
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -35,6 +37,14 @@ export default {
   name: "productos",
   props: {
     productos: Array,
+    mostrarBtn: { type: Boolean, default: false },
+    ocultaCelda: { type: Boolean, default: true },
+  },
+  methods: {
+    vender(producto) {
+      this.$store.dispatch("vender", producto);
+      console.log(producto);
+    },
   },
 };
 </script>

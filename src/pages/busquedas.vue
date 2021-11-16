@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container pt-5">
     <div class="my-5">
       <h2 class="mb-4">Buscar :</h2>
       <input
@@ -7,7 +7,10 @@
         v-model="buscarPorCodigo"
         placeholder="ingresar codigo"
       />
-      <productos :productos="buscarProducto(buscarPorCodigo)"></productos>
+      <productos
+        v-if="buscarProducto(buscarPorCodigo).length > 0"
+        :productos="buscarProducto(buscarPorCodigo)"
+      ></productos>
     </div>
 
     <hr />
@@ -24,8 +27,8 @@
       </div>
     </div>
 
-    <hr/>
-    <div class='my-5'>
+    <hr />
+    <div class="my-5">
       <h2>Listado de Juegos</h2>
       <productos :productos="$store.state.productos"></productos>
     </div>
@@ -50,6 +53,8 @@ export default {
   computed: {
     ...mapGetters(["stockTotal", "buscarProducto"]),
   },
+
+  methods: {},
 };
 </script>
 
